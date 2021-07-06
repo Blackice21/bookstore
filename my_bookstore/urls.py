@@ -15,17 +15,22 @@ Including another URLconf
 """
 from my_bookstore.settings import DEBUG
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from bookstore_app import views
+import bookstore_app
+import accounts
+import shopping_cart
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home')
+    path('', views.book_list, name='book_list'),
+    path('books/', include('bookstore_app.urls', namespace='bookstore_app')),
+    path('cart/', include('shopping_cart.urls', namespace='shopping_cart')),
+    path('profiles/', include('accounts.urls', namespace='profile')),
+    path('accounts/', include('allauth.urls'))
+    
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

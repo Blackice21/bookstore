@@ -1,0 +1,4 @@
+<h1>this is the detail page</h1>
+{% for item in current_order.items.all %}
+<p>{{item}}</p> <a href="{%url 'shopping_cart:del_from_cart' item.id %}">delete</a>
+{% endfor %}

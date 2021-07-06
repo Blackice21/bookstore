@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="text-center">This is the home page!</h1>
+{% if request.user.is_authenticated %}
+<a href="{% url 'shopping_cart:cart-details'%}">detailll</a>
+{% endif %}
+{% for book in books %}
+{% if book in current_books %}
+<div class="card">
+    <div class="card-header">
+        {{book.title}}
+    </div>
+    <img src="{{book.cover.url}}" height="300px" width="300px" alt="...">
+    <div class="card-body">
+        <h5 class="card-title"><b>Title:</b> {{book.title}}</h5>
+        <p>item in cart</p>
+        <h5 class="card-subtitle"><b>Genre:</b> {{book.genre}}</h5>
+        <hr/>
+        <p class="card-text">{{book.body}}</p>
+        <h6 style="color: green;">${{book.price}}</h6>
+        <a href="#" class="btn btn-primary">sneak peak</a>
+    </div>
+  </div>
+  <br/>
+{% else %}
+<div class="card">
+    <div class="card-header">
+        {{book.title}}
+    </div>
+    <img src="{{book.cover.url}}" height="300px" width="300px" alt="...">
+    <div class="card-body">
+        <h5 class="card-title"><b>Title:</b> {{book.title}}</h5>
+        <h5 class="card-subtitle"><b>Genre:</b> {{book.genre}}</h5>
+        <a href="{% url 'shopping_cart:add_to_cart' book.id %}">add_to_cart</a>
+        <hr/>
+        <p class="card-text">{{book.body}}</p>
+        <h6 style="color: green;">${{book.price}}</h6>
+        <a href="#" class="btn btn-primary">sneak peak</a>
+    </div>
+  </div>
+  <br/>
+{% endif %}
+{% endfor %}
+{% endblock content %}
