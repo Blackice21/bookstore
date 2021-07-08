@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import Profile
 from bookstore_app.models import Book
-from datetime import datetime
+import datetime
 import re
 
 # Create your models here.

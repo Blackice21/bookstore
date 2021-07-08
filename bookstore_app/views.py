@@ -17,7 +17,7 @@ def book_list(request):
         
     context = {
         'books':books,
-        'current_products':current_books,
+        'current_books':current_books,
         'user_order': user_order
     }
     return render(request, 'book_list.html', context)

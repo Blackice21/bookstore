@@ -23,6 +23,23 @@
     </div>
   </div>
   <br/>
+{% elif book in request.user.profile.my_ebooks.all %}
+<div class="card">
+    <div class="card-header">
+        {{book.title}}
+    </div>
+    <img src="{{book.cover.url}}" height="300px" width="300px" alt="...">
+    <div class="card-body">
+        <h5 class="card-title"><b>Title:</b> {{book.title}}</h5>
+        <h5 class="card-subtitle"><b>Genre:</b> {{book.genre}}</h5>
+        <p>already bought</p>
+        <hr/>
+        <p class="card-text">{{book.body}}</p>
+        <h6 style="color: green;">${{book.price}}</h6>
+        <a href="#" class="btn btn-primary">sneak peak</a>
+    </div>
+  </div>
+  <br/>
 {% else %}
 <div class="card">
     <div class="card-header">
