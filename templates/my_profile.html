@@ -1,0 +1,7 @@
+this is the profile view!
+{% for book in my_pro.my_ebooks.all %}
+{{book.title}}
+{% endfor %}
+{% if my_pro.my_ebooks.all == None %}
+{{message}}
+{% endif %}

@@ -3,3 +3,4 @@
 <p>{{item}}</p> <a href="{%url 'shopping_cart:del_from_cart' item.id %}">delete</a>
 {% endfor %}
 <p>{{current_order.get_cart_total}}</p>
+<a href="{% url 'shopping_cart:checkout' %}"><button>checkout</button></a>

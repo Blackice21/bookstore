@@ -12,7 +12,7 @@ def book_list(request):
         our_orderitems = user_order.items.all()    
         for item in our_orderitems:
             current_books.append(item.book)
-    except AttributeError:
+    except: 
          user_order=None
         
     context = {

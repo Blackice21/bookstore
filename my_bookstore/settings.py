@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bookstore_app',
     'accounts',
     'shopping_cart',
+    'stripe',
 
     'django.contrib.sites',
     'allauth',
@@ -146,3 +147,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 SITE_ID = 1
 
+STRIPE_PUBLIC_KEY = "pk_test_51IHU1rB8XMkodZKr9nljwopvHxnOamWtGSVaDXBmQbQQDS895bAW75fiDM1HL1taeU1u6HIYlkyfhTwHOiu8fhrS00yzhYMb3w"
+STRIPE_SECRET_KEY = "sk_test_51IHU1rB8XMkodZKrzDU00LAdM2T66Pfb8K8C1f5yKOg2fnhbvOmFtl9FytNJ7cdPmsjrNEVq3m519gRXKvkEeRY600zstVSFbx"
+
+LOGIN_REDIRECT_URL

@@ -29,7 +29,9 @@ urlpatterns = [
     path('books/', include('bookstore_app.urls', namespace='bookstore_app')),
     path('cart/', include('shopping_cart.urls', namespace='shopping_cart')),
     path('profiles/', include('accounts.urls', namespace='profile')),
-    path('accounts/', include('allauth.urls'))
+    path('accounts/', include('allauth.urls')),
+    # stripe urls
+    path('success/', shopping_cart.views.success, name='success')
     
 ]
 
