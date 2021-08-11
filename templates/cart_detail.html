@@ -1,6 +1,25 @@
-<h1>this is the detail page</h1>
-{% for item in current_order.items.all %}
-<p>{{item}}</p> <a href="{%url 'shopping_cart:del_from_cart' item.id %}">delete</a>
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-center">Your cart</h1>
+
+<div class="row" style="margin-left: 1.5in;">
+{% for item in current_order.items.all  %}
+<div class="card text-center" style="margin-left: .3in; width: 18rem;">
+  <img src="{{item.book.cover.url}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h3 class="card-title">{{item.book.title}}</h3>
+    <h5 class="card-subtitle">${{item.book.price}}</h5>
+    <a href="{%url 'shopping_cart:del_from_cart' item.id %}"><button class="btn btn-danger">remove</button></a>
+  </div>
+</div>
 {% endfor %}
-<p>{{current_order.get_cart_total}}</p>
-<a href="{% url 'shopping_cart:checkout' %}"><button>checkout</button></a>
+</div>
+
+<h3 class="text-center">Total is ${{current_order.get_cart_total}}</h3>
+<form action="{% url 'shopping_cart:process-payment' current_order.id %}" method="POST">
+  {% csrf_token %}
+  <div class="text-center">
+  <button class="btn btn-primary" type="submit">Procede to Checkout</button>
+  </div>
+</form>
+{% endblock %}

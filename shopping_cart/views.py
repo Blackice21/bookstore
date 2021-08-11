@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 import stripe
+from django.core.mail import send_mail
 stripe.api_key = settings.STRIPE_SECRET_KEY
 # Create your views here.
 # what to do?
@@ -29,8 +30,8 @@ def add_to_cart(request, pk):
     user_order, status = Order.objects.get_or_create(owner=request.user.profile, is_submitted=False)
     user_order.items.add(user_order_item)
     
-    if user_book in request.user.profile.my_ebooks.all():
-        return render(request, 'book_list.html', {'message':'already bought'})
+   # if user_book in request.user.profile.my_ebooks.all():
+    #    return render(request, 'book_list.html', {'message':'already bought'})
 
     if status:
         user_order.bar_code = Order.get_bar_code()
@@ -39,20 +40,24 @@ def add_to_cart(request, pk):
     # message
     return redirect(reverse('bookstore_app:book_list'))
 
+@login_required
 def del_from_cart(request, pk):
     user_orderitem = get_object_or_404(OrderItem,pk=pk)
     user_orderitem.delete()
     # message
     return redirect(reverse('bookstore_app:book_list'))
 
+@login_required
 def cart_details(request):
     current_order = get_current_order(request)
     return render(request, 'cart_detail.html',{'current_order':current_order})
 
+@login_required
 def checkout(request):
     current_order = get_current_order(request)
     return render(request, 'checkout.html',{'current_order':current_order})
 
+@login_required
 def process_payment(request, order_id):
       # Stripe config here
       order = get_object_or_404(Order, id=order_id)
@@ -81,10 +86,12 @@ def process_payment(request, order_id):
         )
       return redirect(checkout_session.url, code=303)
 
+@login_required
 def success(request):
-   current_order = get_current_order(request) 
+   current_order = get_current_order(request)
    return redirect(reverse('shopping_cart:update-records', kwargs={'order_id':current_order.id}))
 
+@login_required
 def update_transaction_record(request, order_id):
     # get logged in user
     user_profile = get_object_or_404(Profile, user=request.user)
@@ -99,5 +106,12 @@ def update_transaction_record(request, order_id):
     ordered_Book = [item.book for item in ordered_items]
     user_profile.my_ebooks.add(*ordered_Book)
     user_profile.save()
-    return redirect(reverse('profile:my_profile'))
+    send_mail(
+    'Your Receipt',
+    'We recieved your payment of ',
+    'djangodummy123456789@gmail.com',
+    ['kegnofirdi@biyac.com'],
+    fail_silently=False,
+)  
+    return render(request,'success.html')
 

@@ -1,28 +1,24 @@
-this is the checkout page!
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Buy cool new product</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-  </head>
-  <body>
-    <section>
-      <div class="product">
-        <img
-          src="https://i.imgur.com/EHyR2nP.png"
-          alt="The cover of Stubborn Attachments"
-        />
-        <div class="description">
-          <h3>your order</h3>
-          <h5>${{ current_order.get_cart_total }}</h5>
-        </div>
-      </div>
-      <form action="{% url 'shopping_cart:process-payment' current_order.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit">Checkout</button>
-      </form>
-    </section>
-  </body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-center">Your cart</h1>
+
+<div class="row" style="margin-left: 1.5in;">
+{% for item in current_order.items.all  %}
+<div class="card text-center" style="margin-left: .3in; width: 18rem;">
+  <img src="{{item.book.cover.url}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h3 class="card-title">{{item.book.title}}</h3>
+    <h5 class="card-subtitle">${{item.book.price}}</h5>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<h3 class="text-center">Total is ${{current_order.get_cart_total}}</h3>
+<form action="{% url 'shopping_cart:process-payment' current_order.id %}" method="POST">
+  {% csrf_token %}
+  <div class="text-center">
+  <button class="btn btn-primary" type="submit">Procede to Checkout</button>
+  </div>
+</form>
+{% endblock %}
