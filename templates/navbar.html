@@ -17,11 +17,25 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'shopping_cart:cart-details' %}">my-cart</a>
           </li>
+          {% if user.groups.all %}
+          {% if 'Author' %}
+         <li class="nav-item">
+          <a class="nav-link" href="{% url 'shopping_cart:cart-details' %}">Add a book</a>
+        </li>
+          {% endif %}
+          {% endif %}
           {% endif %}
         </ul>
         <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+
+        <form  method="POST" action="{% url 'bookstore_app:make_author'%}">
+          {% csrf_token %}
+           <label for="author">want to be an author!</label>
+          <input type="checkbox" name="author">
+          <button class="btn btn-outline-success" type="submit">Click here!</button>
         </form>
       </div>
     </div>
